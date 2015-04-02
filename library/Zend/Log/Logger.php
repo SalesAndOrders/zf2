@@ -211,12 +211,14 @@ class Logger implements LoggerInterface
      */
     public function __destruct()
     {
-        foreach ($this->writers as $writer) {
-            try {
-                $writer->shutdown();
-            } catch (\Exception $e) {
+	if ($this->writers instanceof \Iterator) {
+	    foreach ($this->writers as $writer) {
+                try {
+		    $writer->shutdown();
+		} catch (\Exception $e) {
+		}
             }
-        }
+	}
     }
 
     /**
